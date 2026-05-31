@@ -4,8 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WC26 Ranking + Knockout Predictor</title>
-
-  <link rel="icon" type="image/png" href="favicon.png">
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     body{min-height:100vh;background:radial-gradient(circle at top,#0d4e92 0,#071b3d 34%,#020817 78%);color:#fff;padding:22px;overflow-x:hidden}
@@ -39,27 +37,27 @@
     .move-btns button:disabled{background:#eef2f7;color:#94a3b8;border-color:#e2e8f0}
     .move-label{display:inline-block;margin-left:4px}
 
-    .confed-row{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin:22px auto 0;max-width:1380px}
-    .confed-card{border-radius:12px;border:1px solid rgba(255,255,255,.6);padding:14px;text-align:center;font-weight:1000;box-shadow:0 12px 26px rgba(0,0,0,.22)}
-    .confed-card strong{display:block;font-size:44px;line-height:.9;margin:6px 0}
-    .footer-line{text-align:center;margin-top:20px;font-weight:1000;font-size:20px;letter-spacing:.08em}
+    .confed-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:8px auto 0;max-width:1380px;flex-shrink:0}
+    .confed-card{border-radius:10px;border:1px solid rgba(255,255,255,.6);padding:7px;text-align:center;font-weight:1000;box-shadow:0 8px 18px rgba(0,0,0,.22);font-size:12px}
+    .confed-card strong{display:block;font-size:26px;line-height:.9;margin:3px 0}
+    .footer-line{text-align:center;margin-top:7px;font-weight:1000;font-size:13px;letter-spacing:.08em;flex-shrink:0}
 
-    .page-title{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:18px 0;flex-wrap:wrap}
-    .page-title h2{font-size:clamp(32px,5vw,62px);letter-spacing:-.06em;color:#f6c657}
-    .qualified-preview{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0 22px}
-    .qualified-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:18px;padding:12px;display:flex;justify-content:space-between;gap:10px;align-items:center}
+    .page-title{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:6px 0;flex-wrap:wrap;flex-shrink:0}
+    .page-title h2{font-size:clamp(28px,4vw,48px);letter-spacing:-.06em;color:#f6c657}
+    .qualified-preview{display:none}
+    .qualified-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:7px;display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px}
     .qualified-card span{color:#93c5fd;font-size:12px;font-weight:900}
 
-    .bracket{display:grid;grid-template-columns:repeat(5,minmax(250px,1fr));gap:14px;overflow-x:auto;padding-bottom:18px}
-    .round{min-width:250px}
-    .round h3{color:#f6c657;font-size:24px;margin-bottom:12px}
-    .match-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:14px;margin-bottom:14px;box-shadow:0 18px 42px rgba(0,0,0,.25)}
-    .match-label{display:flex;justify-content:space-between;color:#9fb1c8;font-weight:1000;font-size:12px;text-transform:uppercase;margin-bottom:8px}
-    .match-team{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.15)}
+    .bracket{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:8px;overflow:hidden;flex:1;min-height:0;padding-bottom:0}
+    .round{min-width:210px;min-height:0;overflow:hidden}
+    .round h3{color:#f6c657;font-size:18px;margin-bottom:6px}
+    .match-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:8px;margin-bottom:7px;box-shadow:0 10px 22px rgba(0,0,0,.25)}
+    .match-label{display:flex;justify-content:space-between;color:#9fb1c8;font-weight:1000;font-size:10px;text-transform:uppercase;margin-bottom:5px}
+    .match-team{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:5px;background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.15);font-size:11px;padding:7px 8px}
     .match-team.winner{background:rgba(34,197,94,.25);border-color:#22c55e}
     .match-team.empty{opacity:.45;cursor:not-allowed}
-    .champion-box{margin-top:18px;background:linear-gradient(135deg,rgba(246,198,87,.22),rgba(34,197,94,.16));border:1px solid rgba(246,198,87,.5);border-radius:28px;padding:28px;text-align:center}
-    .champion-box .cup{font-size:60px}.champion-box strong{display:block;color:#f6c657;font-size:38px;margin-top:8px}
+    .champion-box{margin-top:7px;background:linear-gradient(135deg,rgba(246,198,87,.22),rgba(34,197,94,.16));border:1px solid rgba(246,198,87,.5);border-radius:18px;padding:10px;text-align:center;flex-shrink:0}
+    .champion-box .cup{font-size:30px}.champion-box strong{display:block;color:#f6c657;font-size:22px;margin-top:4px}
 
     @media(max-width:1200px){.groups-grid{grid-template-columns:repeat(3,1fr)}.confed-row{grid-template-columns:repeat(3,1fr)}.qualified-preview{grid-template-columns:repeat(3,1fr)}}
     @media(max-width:800px){body{padding:12px}.groups-grid{grid-template-columns:repeat(2,1fr)}.confed-row{grid-template-columns:repeat(2,1fr)}.qualified-preview{grid-template-columns:repeat(2,1fr)}}
@@ -106,7 +104,6 @@
         </div>
       </div>
 
-      <section class="qualified-preview" id="qualifiedPreview"></section>
       <section class="bracket" id="bracketContainer"></section>
       <section class="champion-box" id="championBox"><div class="cup">🏆</div><p>Your champion will appear here</p><strong>-</strong></section>
     </section>
@@ -116,7 +113,7 @@
     const originalGroups = {
       A:[team('Mexico','🇲🇽','CONCACAF',78),team('South Africa','🇿🇦','CAF',70),team('South Korea','🇰🇷','AFC',80),team('Czech Republic','🇨🇿','UEFA',77)],
       B:[team('Canada','🇨🇦','CONCACAF',75),team('Bosnia & Herzegovina','🇧🇦','UEFA',73),team('Qatar','🇶🇦','AFC',71),team('Switzerland','🇨🇭','UEFA',82)],
-      C:[team('Brazil','🇧🇷','CONMEBOL',91),team('Morocco','🇲🇦','CAF',84),team('Haiti','🇭🇹','CONCACAF',64),team('Scotland','','UEFA',77)],
+      C:[team('Brazil','🇧🇷','CONMEBOL',91),team('Morocco','🇲🇦','CAF',84),team('Haiti','🇭🇹','CONCACAF',64),team('Scotland','🏴','UEFA',77)],
       D:[team('United States','🇺🇸','CONCACAF',80),team('Paraguay','🇵🇾','CONMEBOL',76),team('Australia','🇦🇺','AFC',74),team('Türkiye','🇹🇷','UEFA',81)],
       E:[team('Germany','🇩🇪','UEFA',89),team('Curaçao','🇨🇼','CONCACAF',65),team('Ivory Coast','🇨🇮','CAF',79),team('Ecuador','🇪🇨','CONMEBOL',81)],
       F:[team('Netherlands','🇳🇱','UEFA',88),team('Japan','🇯🇵','AFC',83),team('Sweden','🇸🇪','UEFA',78),team('Tunisia','🇹🇳','CAF',74)],
@@ -125,7 +122,7 @@
       I:[team('France','🇫🇷','UEFA',93),team('Senegal','🇸🇳','CAF',82),team('Iraq','🇮🇶','AFC',71),team('Norway','🇳🇴','UEFA',84)],
       J:[team('Argentina','🇦🇷','CONMEBOL',91),team('Algeria','🇩🇿','CAF',79),team('Austria','🇦🇹','UEFA',82),team('Jordan','🇯🇴','AFC',69)],
       K:[team('Portugal','🇵🇹','UEFA',90),team('DR Congo','🇨🇩','CAF',72),team('Uzbekistan','🇺🇿','AFC',70),team('Colombia','🇨🇴','CONMEBOL',85)],
-      L:[team('England','','UEFA',90),team('Croatia','🇭🇷','UEFA',84),team('Ghana','🇬🇭','CAF',76),team('Panama','🇵🇦','CONCACAF',68)]
+      L:[team('England','🏴','UEFA',90),team('Croatia','🇭🇷','UEFA',84),team('Ghana','🇬🇭','CAF',76),team('Panama','🇵🇦','CONCACAF',68)]
     };
 
     function team(name,flag,confed,rating){return {name,flag,confed,rating}}
@@ -182,7 +179,6 @@
     function goToKnockouts(){
       document.getElementById('rankingPage').classList.add('hidden');
       document.getElementById('knockoutPage').classList.remove('hidden');
-      renderQualifiedPreview();
       generateBracket();
       window.scrollTo({top:0,behavior:'smooth'});
     }
@@ -209,7 +205,7 @@
 
       rounds = [
         {name:'Round of 24',matches:Array.from({length:8},(_,i)=>match(playoff[i],playoff[15-i],`R24-${i+1}`))},
-        {name:'Round of 16',matches:Array.from({length:8},(_,i)=>match(null,null,`R16-${i+1}`))},
+        {name:'Round of 16',matches:Array.from({length:8},(_,i)=>match(byeTeams[i],null,`R16-${i+1}`))},
         {name:'Quarter Final',matches:Array.from({length:4},(_,i)=>match(null,null,`QF-${i+1}`))},
         {name:'Semi Final',matches:Array.from({length:2},(_,i)=>match(null,null,`SF-${i+1}`))},
         {name:'Final',matches:[match(null,null,'FINAL')]}
@@ -230,7 +226,18 @@
     }
 
     function clearNext(start){
-      for(let r=start;r<rounds.length;r++) rounds[r].matches.forEach(m=>{m.teamA=null;m.teamB=null;m.winner=null});
+      for(let r=start;r<rounds.length;r++) {
+        rounds[r].matches.forEach((m,index)=>{
+          if(r === 1){
+            m.teamA = byeTeams[index] || null;
+            m.teamB = null;
+          } else {
+            m.teamA = null;
+            m.teamB = null;
+          }
+          m.winner = null;
+        });
+      }
     }
 
     function buildNext(roundIndex){
