@@ -116,7 +116,7 @@
     <section id="rankingPage">
       <header class="poster-header">
         <h1>FIFA WORLD CUP 26</h1>
-        <h2>USA • CANADA • MEXICO  </h2>
+        <h2>CANADA • MEXICO • USA</h2>
         <div class="poster-pill">48 TEAMS • 12 GROUPS • 1 CHAMPION</div>
       </header>
 
@@ -169,7 +169,7 @@
       I:[team('France','🇫🇷','UEFA',93),team('Senegal','🇸🇳','CAF',82),team('Iraq','🇮🇶','AFC',71),team('Norway','🇳🇴','UEFA',84)],
       J:[team('Argentina','🇦🇷','CONMEBOL',91),team('Algeria','🇩🇿','CAF',79),team('Austria','🇦🇹','UEFA',82),team('Jordan','🇯🇴','AFC',69)],
       K:[team('Portugal','🇵🇹','UEFA',90),team('DR Congo','🇨🇩','CAF',72),team('Uzbekistan','🇺🇿','AFC',70),team('Colombia','🇨🇴','CONMEBOL',85)],
-      L:[team('England','🇬🇧','UEFA',90),team('Croatia','🇭🇷','UEFA',84),team('Ghana','🇬🇭','CAF',76),team('Panama','🇵🇦','CONCACAF',68)]
+      L:[team('England','ENG','UEFA',90),team('Croatia','🇭🇷','UEFA',84),team('Ghana','🇬🇭','CAF',76),team('Panama','🇵🇦','CONCACAF',68)]
     };
 
     function team(name,flag,confed,rating){return {name,flag,confed,rating}}
@@ -246,15 +246,56 @@
 
     function generateBracket(){
       const qualified = getQualified();
-      const playoff = sorted.slice(8);
+      const seedMap = {};
+
+      qualified.forEach(team => {
+        seedMap[team.seed] = team;
+      });
+
+      // Fixed bracket based on group positions, NOT ratings.
+      // This means if the user changes the ranking in a group,
+      // the knockout teams change automatically.
+      const byeSeeds = ['1A','1B','1C','1D','1E','1F','1G','1H'];
+      byeTeams = byeSeeds.map(seed => seedMap[seed]);
+
+      const roundOf24Pairings = [
+        ['1I','2L'],
+        ['1J','2K'],
+        ['1K','2J'],
+        ['1L','2I'],
+        ['2A','2H'],
+        ['2B','2G'],
+        ['2C','2F'],
+        ['2D','2E']
+      ];
 
       rounds = [
-        {name:'Round of 24',matches:Array.from({length:8},(_,i)=>match(playoff[i],playoff[15-i],`R24-${i+1}`))},
-        {name:'Round of 16',matches:Array.from({length:8},(_,i)=>match(byeTeams[i],null,`R16-${i+1}`))},
-        {name:'Quarter Final',matches:Array.from({length:4},(_,i)=>match(null,null,`QF-${i+1}`))},
-        {name:'Semi Final',matches:Array.from({length:2},(_,i)=>match(null,null,`SF-${i+1}`))},
-        {name:'Final',matches:[match(null,null,'FINAL')]}
+        {
+          name:'Round of 24',
+          matches: roundOf24Pairings.map((pair,index) =>
+            match(seedMap[pair[0]], seedMap[pair[1]], `R24-${index + 1}`)
+          )
+        },
+        {
+          name:'Round of 16',
+          matches: byeTeams.map((team,index) =>
+            match(team, null, `R16-${index + 1}`)
+          )
+        },
+        {
+          name:'Quarter Final',
+          matches:Array.from({length:4},(_,i)=>match(null,null,`QF-${i+1}`))
+        },
+        {
+          name:'Semi Final',
+          matches:Array.from({length:2},(_,i)=>match(null,null,`SF-${i+1}`))
+        },
+        {
+          name:'Final',
+          matches:[match(null,null,'FINAL')]
+        }
       ];
+
       renderBracket();
       updateChampion();
     }
