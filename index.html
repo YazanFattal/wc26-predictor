@@ -246,8 +246,6 @@
 
     function generateBracket(){
       const qualified = getQualified();
-      const sorted = [...qualified].sort((a,b)=>b.rating-a.rating);
-      byeTeams = sorted.slice(0,8);
       const playoff = sorted.slice(8);
 
       rounds = [
