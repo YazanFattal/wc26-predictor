@@ -31,7 +31,7 @@
     .team-row:last-child{border-bottom:0}
     .rank-num{width:26px;height:26px;border-radius:999px;background:#0b2550;color:#fff;display:grid;place-items:center;font-size:13px;font-weight:1000}
     .team-main{display:flex;align-items:center;gap:9px;font-weight:1000;font-size:15px;text-transform:uppercase;line-height:1.05}
-    .flag{font-size:22px;line-height:1;min-width:30px;text-align:center;color:#0b2550;font-weight:1000}
+    .flag{font-size:14px;line-height:1;min-width:34px;text-align:center;color:#0b2550;font-weight:1000}
     .move-btns{display:grid;grid-template-columns:1fr 1fr;gap:6px;min-width:118px}
     .move-btns button{padding:8px 9px;border-radius:10px;font-size:11px;background:#dbeafe;color:#082f5f;border:1px solid #bfdbfe;box-shadow:none}
     .move-btns button:hover{background:#bfdbfe;transform:none}
@@ -49,20 +49,66 @@
     .qualified-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:7px;display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px}
     .qualified-card span{color:#93c5fd;font-size:12px;font-weight:900}
 
-    .bracket{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:8px;overflow:hidden;flex:1;min-height:0;padding-bottom:0}
-    .round{min-width:210px;min-height:0;overflow:hidden}
-    .round h3{color:#f6c657;font-size:18px;margin-bottom:6px}
-    .match-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:8px;margin-bottom:7px;box-shadow:0 10px 22px rgba(0,0,0,.25)}
-    .match-label{display:flex;justify-content:space-between;color:#9fb1c8;font-weight:1000;font-size:10px;text-transform:uppercase;margin-bottom:5px}
-    .match-team{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:5px;background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.15);font-size:11px;padding:7px 8px}
+    .bracket{display:grid;grid-template-columns:repeat(5,minmax(250px,1fr));gap:14px;overflow-x:auto;padding-bottom:18px}
+    .round{min-width:250px}
+    .round h3{color:#f6c657;font-size:24px;margin-bottom:12px}
+    .match-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:14px;margin-bottom:14px;box-shadow:0 18px 42px rgba(0,0,0,.25)}
+    .match-label{display:flex;justify-content:space-between;color:#9fb1c8;font-weight:1000;font-size:12px;text-transform:uppercase;margin-bottom:8px}
+    .match-team{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.15)}
     .match-team.winner{background:rgba(34,197,94,.25);border-color:#22c55e}
     .match-team.empty{opacity:.45;cursor:not-allowed}
     .champion-box{margin-top:7px;background:linear-gradient(135deg,rgba(246,198,87,.22),rgba(34,197,94,.16));border:1px solid rgba(246,198,87,.5);border-radius:18px;padding:10px;text-align:center;flex-shrink:0}
     .champion-box .cup{font-size:30px}.champion-box strong{display:block;color:#f6c657;font-size:22px;margin-top:4px}
 
-    @media(max-width:1200px){.groups-grid{grid-template-columns:repeat(3,1fr)}.confed-row{grid-template-columns:repeat(3,1fr)}.qualified-preview{grid-template-columns:repeat(3,1fr)}}
-    @media(max-width:800px){body{padding:12px}.groups-grid{grid-template-columns:repeat(2,1fr)}.confed-row{grid-template-columns:repeat(2,1fr)}.qualified-preview{grid-template-columns:repeat(2,1fr)}}
-    @media(max-width:520px){.groups-grid,.qualified-preview{grid-template-columns:1fr}.team-main{font-size:14px}.poster-pill{padding:10px 16px}}
+    @media(max-width:1200px){
+      .groups-grid{grid-template-columns:repeat(3,1fr)}
+      .confed-row{grid-template-columns:repeat(3,1fr)}
+      .qualified-preview{grid-template-columns:repeat(3,1fr)}
+      .bracket{grid-template-columns:repeat(3,minmax(250px,1fr));overflow:visible}
+    }
+
+    @media(max-width:900px){
+      body{padding:12px}
+      .groups-grid{grid-template-columns:repeat(2,1fr)}
+      .confed-row{grid-template-columns:repeat(2,1fr)}
+      .qualified-preview{grid-template-columns:repeat(2,1fr)}
+      .poster-header h1{font-size:44px}
+      .poster-header h2{font-size:18px}
+      .poster-pill{font-size:15px;padding:9px 18px}
+      .page-title{align-items:flex-start;flex-direction:column}
+      .page-title .top-actions{justify-content:flex-start;margin:8px 0}
+      .bracket{grid-template-columns:1fr;gap:18px;overflow:visible}
+      .round{min-width:0;width:100%}
+      .round h3{position:sticky;top:0;z-index:3;background:#061b3d;padding:10px;border-radius:12px}
+      .match-card{border-radius:18px;padding:12px;margin-bottom:10px}
+      .match-team{font-size:14px;min-height:48px;justify-content:space-between}
+    }
+
+    @media(max-width:520px){
+      body{padding:10px}
+      .poster-header{margin-bottom:12px}
+      .poster-header h1{font-size:34px;line-height:.95}
+      .poster-header h2{font-size:15px;letter-spacing:.08em}
+      .poster-pill{font-size:12px;padding:8px 12px}
+      .top-actions{gap:8px;margin:12px 0}
+      .top-actions button{width:100%;padding:12px}
+      .groups-grid,.qualified-preview{grid-template-columns:1fr}
+      .group-head{font-size:22px;padding:12px}
+      .team-row{grid-template-columns:30px 1fr;gap:8px;min-height:auto;padding:10px}
+      .team-main{font-size:14px}
+      .move-btns{grid-column:1 / -1;width:100%;min-width:0;grid-template-columns:1fr 1fr;margin-top:6px}
+      .move-btns button{font-size:13px;padding:10px}
+      .confed-row{display:none}
+      .footer-line{font-size:12px;line-height:1.4;margin-top:14px}
+      .page-title h2{font-size:32px}
+      .page-title p{font-size:14px;line-height:1.4}
+      .bracket{grid-template-columns:1fr;gap:16px}
+      .round h3{font-size:22px;margin-bottom:10px}
+      .match-label{font-size:11px}
+      .match-team{font-size:14px;padding:12px 14px;border-radius:14px}
+      .champion-box{padding:18px;margin-bottom:20px}
+      .champion-box strong{font-size:26px}
+    }
   </style>
 </head>
 <body>
@@ -114,7 +160,7 @@
     const originalGroups = {
       A:[team('Mexico','🇲🇽','CONCACAF',78),team('South Africa','🇿🇦','CAF',70),team('South Korea','🇰🇷','AFC',80),team('Czech Republic','🇨🇿','UEFA',77)],
       B:[team('Canada','🇨🇦','CONCACAF',75),team('Bosnia & Herzegovina','🇧🇦','UEFA',73),team('Qatar','🇶🇦','AFC',71),team('Switzerland','🇨🇭','UEFA',82)],
-      C:[team('Brazil','🇧🇷','CONMEBOL',91),team('Morocco','🇲🇦','CAF',84),team('Haiti','🇭🇹','CONCACAF',64),team('Scotland','🏴','UEFA',77)],
+      C:[team('Brazil','🇧🇷','CONMEBOL',91),team('Morocco','🇲🇦','CAF',84),team('Haiti','🇭🇹','CONCACAF',64),team('Scotland','SCO','UEFA',77)],
       D:[team('United States','🇺🇸','CONCACAF',80),team('Paraguay','🇵🇾','CONMEBOL',76),team('Australia','🇦🇺','AFC',74),team('Türkiye','🇹🇷','UEFA',81)],
       E:[team('Germany','🇩🇪','UEFA',89),team('Curaçao','🇨🇼','CONCACAF',65),team('Ivory Coast','🇨🇮','CAF',79),team('Ecuador','🇪🇨','CONMEBOL',81)],
       F:[team('Netherlands','🇳🇱','UEFA',88),team('Japan','🇯🇵','AFC',83),team('Sweden','🇸🇪','UEFA',78),team('Tunisia','🇹🇳','CAF',74)],
@@ -123,7 +169,7 @@
       I:[team('France','🇫🇷','UEFA',93),team('Senegal','🇸🇳','CAF',82),team('Iraq','🇮🇶','AFC',71),team('Norway','🇳🇴','UEFA',84)],
       J:[team('Argentina','🇦🇷','CONMEBOL',91),team('Algeria','🇩🇿','CAF',79),team('Austria','🇦🇹','UEFA',82),team('Jordan','🇯🇴','AFC',69)],
       K:[team('Portugal','🇵🇹','UEFA',90),team('DR Congo','🇨🇩','CAF',72),team('Uzbekistan','🇺🇿','AFC',70),team('Colombia','🇨🇴','CONMEBOL',85)],
-      L:[team('England','🏴','UEFA',90),team('Croatia','🇭🇷','UEFA',84),team('Ghana','🇬🇭','CAF',76),team('Panama','🇵🇦','CONCACAF',68)]
+      L:[team('England','ENG','UEFA',90),team('Croatia','🇭🇷','UEFA',84),team('Ghana','🇬🇭','CAF',76),team('Panama','🇵🇦','CONCACAF',68)]
     };
 
     function team(name,flag,confed,rating){return {name,flag,confed,rating}}
