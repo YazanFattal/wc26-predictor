@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WC26 Ranking + Knockout Predictor</title>
   <link rel="icon" type="image/png" href="favicon.png">
+
   <style>
     *{margin:0;padding:0;box-sizing:border-box;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
     body{min-height:100vh;background:radial-gradient(circle at top,#0d4e92 0,#071b3d 34%,#020817 78%);color:#fff;padding:22px;overflow-x:hidden}
@@ -20,7 +21,6 @@
     button{border:0;border-radius:14px;padding:12px 16px;font-weight:1000;cursor:pointer;background:#f6c657;color:#07111f;transition:.2s}
     button:hover{transform:translateY(-2px)}
     button.secondary{background:rgba(255,255,255,.13);color:white;border:1px solid rgba(255,255,255,.2)}
-    button.blue{background:#42a5ff;color:white}
     button.green{background:#22c55e;color:#06220f}
     button:disabled{opacity:.45;cursor:not-allowed;transform:none}
 
@@ -36,94 +36,128 @@
       gap:9px;
       box-shadow:0 14px 28px rgba(0,0,0,.28), inset 0 1px 0 rgba(255,255,255,.3);
     }
-
-    .top-actions button:nth-child(1){
-      background:linear-gradient(135deg,#facc15,#f59e0b);
-      color:#111827;
-      border:1px solid rgba(255,255,255,.35);
-    }
-
-    .top-actions button:nth-child(1)::before{content:'⚡'}
-
-    .top-actions button:nth-child(2){
-      background:linear-gradient(135deg,#334155,#1e293b);
-      color:#f8fafc;
-      border:1px solid rgba(255,255,255,.18);
-    }
-
+    .top-actions button:nth-child(1){background:linear-gradient(135deg,#facc15,#f59e0b);color:#111827;border:1px solid rgba(255,255,255,.35)}
+    .top-actions button:nth-child(1)::before{content:'⚽'}
+    .top-actions button:nth-child(2){background:linear-gradient(135deg,#334155,#1e293b);color:#f8fafc;border:1px solid rgba(255,255,255,.18)}
     .top-actions button:nth-child(2)::before{content:'↺'}
-
-    .top-actions button:nth-child(3){
-      background:linear-gradient(135deg,#22c55e,#16a34a);
-      color:#052e16;
-      border:1px solid rgba(255,255,255,.35);
-    }
-
+    .top-actions button:nth-child(3){background:linear-gradient(135deg,#22c55e,#16a34a);color:#052e16;border:1px solid rgba(255,255,255,.35)}
     .top-actions button:nth-child(3)::before{content:'🏆'}
+    .top-actions button:hover{transform:translateY(-3px) scale(1.02);box-shadow:0 18px 34px rgba(0,0,0,.34),0 0 24px rgba(246,198,87,.18)}
 
-    .top-actions button:hover{
-      transform:translateY(-3px) scale(1.02);
-      box-shadow:0 18px 34px rgba(0,0,0,.34), 0 0 24px rgba(246,198,87,.18);
+    .format-note{
+      margin:0 auto 20px;
+      max-width:980px;
+      padding:14px 18px;
+      border:1px solid rgba(246,198,87,.35);
+      background:rgba(246,198,87,.1);
+      border-radius:16px;
+      color:#fef3c7;
+      font-weight:800;
+      line-height:1.5;
+      text-align:center;
     }
 
-    .groups-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:18px}
+    .groups-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:18px}
     .group-card{background:#f8fafc;color:#111827;border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.85);box-shadow:0 18px 42px rgba(0,0,0,.32)}
     .group-head{padding:15px;text-align:center;color:white;font-size:25px;font-weight:1000;letter-spacing:-.03em;background:linear-gradient(135deg,#0757a8,#0b2f64)!important}
-    .team-row{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:10px;min-height:58px;padding:9px 12px;border-bottom:1px solid #cbd5e1}
-    .team-row:last-child{border-bottom:0}
-    .rank-num{width:26px;height:26px;border-radius:999px;background:#0b2550;color:#fff;display:grid;place-items:center;font-size:13px;font-weight:1000}
-    .team-main{display:flex;align-items:center;gap:9px;font-weight:1000;font-size:15px;text-transform:uppercase;line-height:1.05}
-    .flag{font-size:14px;line-height:1;min-width:34px;text-align:center;color:#0b2550;font-weight:1000}
-    .move-btns{display:grid;grid-template-columns:1fr 1fr;gap:6px;min-width:118px}
-    .move-btns button{padding:8px 9px;border-radius:10px;font-size:11px;background:#dbeafe;color:#082f5f;border:1px solid #bfdbfe;box-shadow:none}
-    .move-btns button:hover{background:#bfdbfe;transform:none}
-    .move-btns button:disabled{background:#eef2f7;color:#94a3b8;border-color:#e2e8f0}
-    .move-label{display:inline-block;margin-left:4px}
 
-    .confed-row{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:8px auto 0;max-width:1380px;flex-shrink:0}
-    .confed-card{border-radius:10px;border:1px solid rgba(255,255,255,.6);padding:7px;text-align:center;font-weight:1000;box-shadow:0 8px 18px rgba(0,0,0,.22);font-size:12px}
-    .confed-card strong{display:block;font-size:26px;line-height:.9;margin:3px 0}
-    .footer-line{text-align:center;margin-top:7px;font-weight:1000;font-size:13px;letter-spacing:.08em;flex-shrink:0}
+    .standings-table{width:100%;border-collapse:collapse}
+    .standings-table th{font-size:10px;text-transform:uppercase;color:#475569;background:#e2e8f0;padding:8px 5px}
+    .standings-table td{padding:8px 5px;border-bottom:1px solid #cbd5e1;font-size:12px;text-align:center;font-weight:900}
+    .standings-table tr.qualified td:first-child{border-left:5px solid #22c55e}
+    .standings-table tr.third-place td:first-child{border-left:5px solid #f6c657}
+    .standings-table td.team-cell{text-align:left;font-size:13px}
+    .flag{font-size:14px;line-height:1;min-width:34px;text-align:center;color:#0b2550;font-weight:1000;display:inline-block}
 
-    .page-title{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:6px 0;flex-wrap:wrap;flex-shrink:0}
+    .matches{padding:12px;display:grid;gap:10px;background:#f1f5f9}
+    .match-input{
+      display:grid;
+      grid-template-columns:1fr 44px 20px 44px 1fr;
+      align-items:center;
+      gap:6px;
+      background:#fff;
+      border:1px solid #dbe3ef;
+      border-radius:12px;
+      padding:9px;
+      color:#0f172a;
+    }
+    .match-input .team-name{font-size:12px;font-weight:1000;text-transform:uppercase}
+    .match-input .team-name.right{text-align:right}
+    .match-input input{
+      width:44px;
+      height:36px;
+      text-align:center;
+      border:1px solid #cbd5e1;
+      border-radius:9px;
+      font-size:16px;
+      font-weight:1000;
+      color:#0f172a;
+    }
+    .dash{text-align:center;font-weight:1000;color:#64748b}
+
+    .footer-line{text-align:center;margin-top:14px;font-weight:1000;font-size:13px;letter-spacing:.08em;color:#dbeafe}
+
+    .page-title{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:6px 0 18px;flex-wrap:wrap}
     .page-title h2{font-size:clamp(28px,4vw,48px);letter-spacing:-.06em;color:#f6c657}
-    .qualified-preview{display:none}
-    .qualified-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16);border-radius:12px;padding:7px;display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:12px}
-    .qualified-card span{color:#93c5fd;font-size:12px;font-weight:900}
+    .page-title p{color:#dbeafe;line-height:1.5}
+
+    .legend{display:flex;gap:10px;flex-wrap:wrap;margin:0 0 18px}
+    .legend span{display:inline-flex;align-items:center;gap:7px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);font-size:13px;font-weight:900;color:#dbeafe}
+    .dot{width:10px;height:10px;border-radius:999px;background:#22c55e}
+    .dot.yellow{background:#f6c657}
+
+    .third-ranking{
+      margin:18px 0;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.15);
+      border-radius:18px;
+      padding:14px;
+    }
+    .third-ranking h3{color:#f6c657;margin-bottom:10px}
+    .third-list{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    .third-card{
+      padding:10px;
+      border-radius:12px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      font-size:13px;
+      font-weight:900;
+    }
+    .third-card.out{opacity:.45}
+    .third-card small{display:block;color:#cbd5e1;margin-top:4px}
 
     .bracket{display:grid;grid-template-columns:repeat(5,minmax(250px,1fr));gap:14px;overflow-x:auto;padding-bottom:18px}
     .round{min-width:250px}
-    .round h3{color:#f6c657;font-size:24px;margin-bottom:12px}
+    .round h3{color:#f6c657;font-size:24px;margin-bottom:12px;position:sticky;top:0;z-index:3;background:#061b3d;padding:10px;border-radius:12px}
     .match-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:14px;margin-bottom:14px;box-shadow:0 18px 42px rgba(0,0,0,.25)}
-    .match-label{display:flex;justify-content:space-between;color:#9fb1c8;font-weight:1000;font-size:12px;text-transform:uppercase;margin-bottom:8px}
-    .match-team{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.15)}
+    .match-label{display:flex;justify-content:space-between;color:#9fb1c8;font-weight:1000;font-size:12px;text-transform:uppercase;margin-bottom:8px;gap:8px}
+    .match-team{width:100%;display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:8px;background:rgba(255,255,255,.13);color:#fff;border:1px solid rgba(255,255,255,.15);border-radius:14px;padding:12px 14px;font-size:14px;font-weight:900}
     .match-team.winner{background:rgba(34,197,94,.25);border-color:#22c55e}
     .match-team.empty{opacity:.45;cursor:not-allowed}
-    .champion-box{margin-top:7px;background:linear-gradient(135deg,rgba(246,198,87,.22),rgba(34,197,94,.16));border:1px solid rgba(246,198,87,.5);border-radius:18px;padding:10px;text-align:center;flex-shrink:0}
-    .champion-box .cup{font-size:30px}.champion-box strong{display:block;color:#f6c657;font-size:22px;margin-top:4px}
+    .match-team b{font-size:11px;color:#cbd5e1;white-space:nowrap}
+
+    .champion-box{margin-top:7px;background:linear-gradient(135deg,rgba(246,198,87,.22),rgba(34,197,94,.16));border:1px solid rgba(246,198,87,.5);border-radius:18px;padding:18px;text-align:center}
+    .champion-box .cup{font-size:34px}
+    .champion-box strong{display:block;color:#f6c657;font-size:28px;margin-top:6px}
 
     @media(max-width:1200px){
-      .groups-grid{grid-template-columns:repeat(3,1fr)}
-      .confed-row{grid-template-columns:repeat(3,1fr)}
-      .qualified-preview{grid-template-columns:repeat(3,1fr)}
+      .groups-grid{grid-template-columns:repeat(2,1fr)}
       .bracket{grid-template-columns:repeat(3,minmax(250px,1fr));overflow:visible}
+      .third-list{grid-template-columns:repeat(2,1fr)}
     }
 
     @media(max-width:900px){
       body{padding:12px}
-      .groups-grid{grid-template-columns:repeat(2,1fr)}
-      .confed-row{grid-template-columns:repeat(2,1fr)}
-      .qualified-preview{grid-template-columns:repeat(2,1fr)}
+      .groups-grid{grid-template-columns:1fr}
       .poster-header h1{font-size:44px}
       .poster-header h2{font-size:18px}
       .poster-pill{font-size:15px;padding:9px 18px}
       .page-title{align-items:flex-start;flex-direction:column}
-      .page-title .top-actions{justify-content:flex-start;margin:8px 0}
+      .page-title .top-actions{justify-content:flex-start;margin:8px 0;width:100%}
       .bracket{grid-template-columns:1fr;gap:18px;overflow:visible}
       .round{min-width:0;width:100%}
-      .round h3{position:sticky;top:0;z-index:3;background:#061b3d;padding:10px;border-radius:12px}
       .match-card{border-radius:18px;padding:12px;margin-bottom:10px}
-      .match-team{font-size:14px;min-height:48px;justify-content:space-between}
+      .match-team{font-size:14px;min-height:50px}
     }
 
     @media(max-width:520px){
@@ -133,59 +167,59 @@
       .poster-header h2{font-size:15px;letter-spacing:.08em}
       .poster-pill{font-size:12px;padding:8px 12px}
       .top-actions{gap:8px;margin:12px 0}
-      .top-actions button{width:100%;padding:12px}
-      .groups-grid,.qualified-preview{grid-template-columns:1fr}
+      .top-actions button{width:100%;padding:12px;min-width:0}
+      .format-note{font-size:12px}
       .group-head{font-size:22px;padding:12px}
-      .team-row{grid-template-columns:30px 1fr;gap:8px;min-height:auto;padding:10px}
-      .team-main{font-size:14px}
-      .move-btns{grid-column:1 / -1;width:100%;min-width:0;grid-template-columns:1fr 1fr;margin-top:6px}
-      .move-btns button{font-size:13px;padding:10px}
-      .confed-row{display:none}
+      .standings-table th{font-size:9px}
+      .standings-table td{font-size:11px;padding:7px 3px}
+      .standings-table td.team-cell{font-size:12px}
+      .match-input{grid-template-columns:1fr 38px 14px 38px 1fr;padding:8px}
+      .match-input input{width:38px;height:34px}
+      .match-input .team-name{font-size:10px}
       .footer-line{font-size:12px;line-height:1.4;margin-top:14px}
       .page-title h2{font-size:32px}
       .page-title p{font-size:14px;line-height:1.4}
-      .bracket{grid-template-columns:1fr;gap:16px}
+      .legend span{font-size:12px}
+      .third-list{grid-template-columns:1fr}
       .round h3{font-size:22px;margin-bottom:10px}
       .match-label{font-size:11px}
       .match-team{font-size:14px;padding:12px 14px;border-radius:14px}
+      .match-team b{font-size:10px}
       .champion-box{padding:18px;margin-bottom:20px}
       .champion-box strong{font-size:26px}
     }
   </style>
 </head>
+
 <body>
   <main class="app">
     <section id="rankingPage">
       <header class="poster-header">
         <h1>FIFA WORLD CUP 26</h1>
         <h2>CANADA • MEXICO • USA</h2>
-        <div class="poster-pill">48 TEAMS • 12 GROUPS • 1 CHAMPION</div>
+        <div class="poster-pill">48 TEAMS • 12 GROUPS • ROUND OF 32</div>
       </header>
 
+      <div class="format-note">
+        Enter goals for each group match. The app calculates points, goal difference, goals scored, rankings, and the 8 best third-place teams.
+      </div>
+
       <div class="top-actions">
-        <button onclick="autoRankGroups()">Auto Rank by Rating</button>
-        <button class="secondary" onclick="resetRanking()">Reset Ranking</button>
-        <button class="green" onclick="goToKnockouts()">Proceed to Knockouts</button>
+        <button onclick="autoFillPredictions()">Auto Fill Goals</button>
+        <button class="secondary" onclick="resetGoals()">Reset Goals</button>
+        <button class="green" onclick="goToKnockouts()">Proceed to Round of 32</button>
       </div>
 
       <section class="groups-grid" id="groupsGrid"></section>
 
-      <section class="confed-row">
-        <div class="confed-card" style="background:#144b8f">UEFA<strong>16</strong>TEAMS</div>
-        <div class="confed-card" style="background:#15803d">CONMEBOL<strong>6</strong>TEAMS</div>
-        <div class="confed-card" style="background:#a16207">AFC<strong>9</strong>TEAMS</div>
-        <div class="confed-card" style="background:#ca8a04">CAF<strong>9</strong>TEAMS</div>
-        <div class="confed-card" style="background:#dc2626">CONCACAF<strong>7</strong>TEAMS</div>
-        <div class="confed-card" style="background:#075985">OFC<strong>1</strong>TEAM</div>
-      </section>
-      <div class="footer-line">ARRANGE EACH GROUP FROM 1ST TO 4TH • THEN START THE KNOCKOUTS</div>
+      <div class="footer-line">GREEN = TOP 2 QUALIFY • YELLOW = THIRD PLACE CANDIDATE</div>
     </section>
 
     <section id="knockoutPage" class="hidden">
       <div class="page-title">
         <div>
-          <h2>Knockout Predictor</h2>
-          <p>Top 2 from each group qualified based on your ranking. Click winners until the final.</p>
+          <h2>Round of 32 Predictor</h2>
+          <p>Top 2 from each group plus 8 best third-place teams qualify. Click winners until the final.</p>
         </div>
         <div class="top-actions">
           <button class="secondary" onclick="backToGroups()">Back to Groups</button>
@@ -193,8 +227,23 @@
         </div>
       </div>
 
+      <div class="legend">
+        <span><i class="dot"></i> Group winner / runner-up</span>
+        <span><i class="dot yellow"></i> Best third-place qualifier</span>
+      </div>
+
+      <section class="third-ranking">
+        <h3>Best third-place teams</h3>
+        <div class="third-list" id="thirdList"></div>
+      </section>
+
       <section class="bracket" id="bracketContainer"></section>
-      <section class="champion-box" id="championBox"><div class="cup">🏆</div><p>Your champion will appear here</p><strong>-</strong></section>
+
+      <section class="champion-box" id="championBox">
+        <div class="cup">🏆</div>
+        <p>Your champion will appear here</p>
+        <strong>-</strong>
+      </section>
     </section>
   </main>
 
@@ -217,52 +266,306 @@
     function team(name,flag,confed,rating){return {name,flag,confed,rating}}
 
     let groups = structuredClone(originalGroups);
+    let results = {};
     let rounds = [];
-    let byeTeams = [];
-    const colors = Array(12).fill('#0757a8');
+
+    function getTeamKey(group, index){
+      return `${group}-${index}`;
+    }
+
+    function getMatchKey(group, i, j){
+      return `${group}-${i}-${j}`;
+    }
+
+    function getGroupMatches(group){
+      return [
+        [0,1],
+        [2,3],
+        [0,2],
+        [1,3],
+        [0,3],
+        [1,2]
+      ];
+    }
+
+    function initResults(){
+      Object.keys(groups).forEach(group => {
+        getGroupMatches(group).forEach(([i,j]) => {
+          const key = getMatchKey(group,i,j);
+          if(!results[key]) results[key] = {home:'', away:''};
+        });
+      });
+    }
 
     function renderGroups(){
+      initResults();
       const grid = document.getElementById('groupsGrid');
-      grid.innerHTML = Object.keys(groups).map((g,index)=>`
-        <article class="group-card">
-          <div class="group-head" style="background:${colors[index]}">GROUP ${g}</div>
-          ${groups[g].map((t,i)=>`
-            <div class="team-row">
-              <div class="rank-num">${i+1}</div>
-              <div class="team-main"><span class="flag">${t.flag || t.name.slice(0,2).toUpperCase()}</span><span>${t.name}</span></div>
-              <div class="move-btns">
-                <button onclick="moveTeam('${g}',${i},-1)" ${i===0?'disabled':''}>↑ <span class="move-label">Up</span></button>
-                <button onclick="moveTeam('${g}',${i},1)" ${i===3?'disabled':''}>↓ <span class="move-label">Down</span></button>
-              </div>
-            </div>`).join('')}
-        </article>`).join('');
+
+      grid.innerHTML = Object.keys(groups).map((group,index)=>{
+        const standings = calculateGroupStandings(group);
+        const standingsRows = standings.map((t,i)=>`
+          <tr class="${i < 2 ? 'qualified' : i === 2 ? 'third-place' : ''}">
+            <td>${i+1}</td>
+            <td class="team-cell"><span class="flag">${t.flag}</span>${t.name}</td>
+            <td>${t.played}</td>
+            <td>${t.points}</td>
+            <td>${t.goalDifference}</td>
+            <td>${t.goalsFor}</td>
+          </tr>
+        `).join('');
+
+        const matchRows = getGroupMatches(group).map(([i,j])=>{
+          const matchKey = getMatchKey(group,i,j);
+          const score = results[matchKey] || {home:'',away:''};
+          const home = groups[group][i];
+          const away = groups[group][j];
+
+          return `
+            <div class="match-input">
+              <div class="team-name">${home.flag} ${home.name}</div>
+              <input type="number" min="0" max="20" value="${score.home}" onchange="updateGoal('${matchKey}','home',this.value)">
+              <div class="dash">-</div>
+              <input type="number" min="0" max="20" value="${score.away}" onchange="updateGoal('${matchKey}','away',this.value)">
+              <div class="team-name right">${away.name} ${away.flag}</div>
+            </div>
+          `;
+        }).join('');
+
+        return `
+          <article class="group-card">
+            <div class="group-head">GROUP ${group}</div>
+            <table class="standings-table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th style="text-align:left">Team</th>
+                  <th>P</th>
+                  <th>Pts</th>
+                  <th>GD</th>
+                  <th>GF</th>
+                </tr>
+              </thead>
+              <tbody>${standingsRows}</tbody>
+            </table>
+            <div class="matches">${matchRows}</div>
+          </article>
+        `;
+      }).join('');
     }
 
-    function moveTeam(group,index,direction){
-      const newIndex = index + direction;
-      if(newIndex < 0 || newIndex > 3) return;
-      const arr = groups[group];
-      [arr[index],arr[newIndex]] = [arr[newIndex],arr[index]];
+    function updateGoal(matchKey, side, value){
+      if(!results[matchKey]) results[matchKey] = {home:'',away:''};
+      results[matchKey][side] = value === '' ? '' : Math.max(0, Number(value));
       renderGroups();
     }
 
-    function autoRankGroups(){
-      Object.keys(groups).forEach(g=>groups[g].sort((a,b)=>b.rating-a.rating));
-      renderGroups();
+    function calculateGroupStandings(group){
+      const table = groups[group].map((t,index)=>({
+        ...t,
+        group,
+        originalIndex:index,
+        seed:'',
+        rank:0,
+        played:0,
+        wins:0,
+        draws:0,
+        losses:0,
+        goalsFor:0,
+        goalsAgainst:0,
+        goalDifference:0,
+        points:0
+      }));
+
+      getGroupMatches(group).forEach(([i,j])=>{
+        const matchKey = getMatchKey(group,i,j);
+        const score = results[matchKey];
+
+        if(!score || score.home === '' || score.away === '') return;
+
+        const homeGoals = Number(score.home);
+        const awayGoals = Number(score.away);
+
+        table[i].played++;
+        table[j].played++;
+
+        table[i].goalsFor += homeGoals;
+        table[i].goalsAgainst += awayGoals;
+        table[j].goalsFor += awayGoals;
+        table[j].goalsAgainst += homeGoals;
+
+        if(homeGoals > awayGoals){
+          table[i].wins++;
+          table[j].losses++;
+          table[i].points += 3;
+        } else if(homeGoals < awayGoals){
+          table[j].wins++;
+          table[i].losses++;
+          table[j].points += 3;
+        } else {
+          table[i].draws++;
+          table[j].draws++;
+          table[i].points += 1;
+          table[j].points += 1;
+        }
+      });
+
+      table.forEach(t=>{
+        t.goalDifference = t.goalsFor - t.goalsAgainst;
+      });
+
+      table.sort((a,b)=>
+        b.points - a.points ||
+        b.goalDifference - a.goalDifference ||
+        b.goalsFor - a.goalsFor ||
+        b.rating - a.rating ||
+        a.name.localeCompare(b.name)
+      );
+
+      table.forEach((t,index)=>{
+        t.rank = index + 1;
+        t.seed = `${index + 1}${group}`;
+        t.position = index === 0 ? 'Winner' : index === 1 ? 'Runner-up' : index === 2 ? 'Third place' : 'Fourth place';
+      });
+
+      return table;
     }
 
-    function resetRanking(){
-      groups = structuredClone(originalGroups);
-      rounds = [];
-      byeTeams = [];
-      renderGroups();
+    function getAllRankedTeams(){
+      return Object.keys(groups).flatMap(group => calculateGroupStandings(group));
     }
 
     function getQualified(){
-      return Object.keys(groups).flatMap(g=>[
-        {...groups[g][0], group:g, seed:`1${g}`, position:'Winner'},
-        {...groups[g][1], group:g, seed:`2${g}`, position:'Runner-up'}
-      ]);
+      const allTeams = getAllRankedTeams();
+      const topTwo = allTeams.filter(team => team.rank <= 2);
+
+      const bestThirdPlace = allTeams
+        .filter(team => team.rank === 3)
+        .sort((a,b)=>
+          b.points - a.points ||
+          b.goalDifference - a.goalDifference ||
+          b.goalsFor - a.goalsFor ||
+          b.rating - a.rating
+        )
+        .slice(0,8)
+        .map(team => ({...team, bestThird:true}));
+
+      return [...topTwo, ...bestThirdPlace];
+    }
+
+    function getTeamBySeed(seed){
+      return getAllRankedTeams().find(team => team.seed === seed) || null;
+    }
+
+    function getBestThirdTeams(){
+      return getQualified().filter(team => team.bestThird);
+    }
+
+    function renderThirdPlaceRanking(){
+      const allThirds = getAllRankedTeams()
+        .filter(team => team.rank === 3)
+        .sort((a,b)=>
+          b.points - a.points ||
+          b.goalDifference - a.goalDifference ||
+          b.goalsFor - a.goalsFor ||
+          b.rating - a.rating
+        );
+
+      const container = document.getElementById('thirdList');
+      if(!container) return;
+
+      container.innerHTML = allThirds.map((team,index)=>`
+        <div class="third-card ${index >= 8 ? 'out' : ''}">
+          ${index + 1}. ${team.flag} ${team.name}
+          <small>Group ${team.group} • ${team.points} pts • GD ${team.goalDifference} • GF ${team.goalsFor}</small>
+        </div>
+      `).join('');
+    }
+
+    function assignThirdPlaceTeams(){
+      const available = [...getBestThirdTeams()];
+
+      const slots = [
+        { key:'M74', label:'3rd A/B/C/D/F', allowed:['A','B','C','D','F'] },
+        { key:'M77', label:'3rd C/D/F/G/H', allowed:['C','D','F','G','H'] },
+        { key:'M79', label:'3rd C/E/F/H/I', allowed:['C','E','F','H','I'] },
+        { key:'M80', label:'3rd E/H/I/J/K', allowed:['E','H','I','J','K'] },
+        { key:'M81', label:'3rd B/E/F/I/J', allowed:['B','E','F','I','J'] },
+        { key:'M82', label:'3rd A/E/H/I/J', allowed:['A','E','H','I','J'] },
+        { key:'M85', label:'3rd E/F/G/I/J', allowed:['E','F','G','I','J'] },
+        { key:'M87', label:'3rd D/E/I/J/L', allowed:['D','E','I','J','L'] }
+      ];
+
+      const assignments = {};
+      const remaining = [...available];
+
+      slots.forEach(slot => {
+        const idx = remaining.findIndex(team => slot.allowed.includes(team.group));
+        if(idx >= 0){
+          assignments[slot.key] = remaining.splice(idx,1)[0];
+        }
+      });
+
+      slots.forEach(slot => {
+        if(!assignments[slot.key]){
+          assignments[slot.key] = remaining.shift() || {
+            name: slot.label,
+            flag:'',
+            rating:'',
+            seed:slot.label,
+            group:'?',
+            bestThird:true,
+            placeholder:true
+          };
+        }
+      });
+
+      return assignments;
+    }
+
+    function autoFillPredictions(){
+      Object.keys(groups).forEach(group => {
+        getGroupMatches(group).forEach(([i,j]) => {
+          const home = groups[group][i];
+          const away = groups[group][j];
+          const key = getMatchKey(group,i,j);
+
+          let homeGoals = 1;
+          let awayGoals = 1;
+
+          const diff = home.rating - away.rating;
+
+          if(diff >= 12){
+            homeGoals = 3;
+            awayGoals = 0;
+          } else if(diff >= 6){
+            homeGoals = 2;
+            awayGoals = 0;
+          } else if(diff >= 2){
+            homeGoals = 2;
+            awayGoals = 1;
+          } else if(diff <= -12){
+            homeGoals = 0;
+            awayGoals = 3;
+          } else if(diff <= -6){
+            homeGoals = 0;
+            awayGoals = 2;
+          } else if(diff <= -2){
+            homeGoals = 1;
+            awayGoals = 2;
+          }
+
+          results[key] = {home:homeGoals, away:awayGoals};
+        });
+      });
+
+      renderGroups();
+    }
+
+    function resetGoals(){
+      results = {};
+      rounds = [];
+      renderGroups();
+      document.getElementById('championBox').innerHTML = `<div class="cup">🏆</div><p>Your champion will appear here</p><strong>-</strong>`;
     }
 
     function goToKnockouts(){
@@ -278,51 +581,45 @@
       window.scrollTo({top:0,behavior:'smooth'});
     }
 
-    function renderQualifiedPreview(){
-      document.getElementById('qualifiedPreview').innerHTML = getQualified().map(t=>`
-        <div class="qualified-card"><div><strong>${t.flag} ${t.name}</strong><br><span>Group ${t.group} • ${t.position}</span></div><b>${t.seed}</b></div>
-      `).join('');
-    }
-
     function match(teamA,teamB,label){return {teamA,teamB,label,winner:null}}
 
     function generateBracket(){
-      const qualified = getQualified();
-      const seedMap = {};
+      const third = assignThirdPlaceTeams();
 
-      qualified.forEach(team => {
-        seedMap[team.seed] = team;
-      });
-
-      // Fixed bracket based on group positions, NOT ratings.
-      // This means if the user changes the ranking in a group,
-      // the knockout teams change automatically.
-      const byeSeeds = ['1A','1B','1C','1D','1E','1F','1G','1H'];
-      byeTeams = byeSeeds.map(seed => seedMap[seed]);
-
-      const roundOf24Pairings = [
-        ['1I','2L'],
-        ['1J','2K'],
-        ['1K','2J'],
-        ['1L','2I'],
-        ['2A','2H'],
-        ['2B','2G'],
-        ['2C','2F'],
-        ['2D','2E']
+      const roundOf32Pairings = [
+        ['2A','2B','M73'],
+        ['1E',third.M74,'M74'],
+        ['1F','2C','M75'],
+        ['1C','2F','M76'],
+        ['1I',third.M77,'M77'],
+        ['2E','2I','M78'],
+        ['1A',third.M79,'M79'],
+        ['1L',third.M80,'M80'],
+        ['1D',third.M81,'M81'],
+        ['1G',third.M82,'M82'],
+        ['2K','2L','M83'],
+        ['1H','2J','M84'],
+        ['1B',third.M85,'M85'],
+        ['1J','2H','M86'],
+        ['1K',third.M87,'M87'],
+        ['2D','2G','M88']
       ];
+
+      function resolveTeam(item){
+        if(typeof item === 'string') return getTeamBySeed(item);
+        return item;
+      }
 
       rounds = [
         {
-          name:'Round of 24',
-          matches: roundOf24Pairings.map((pair,index) =>
-            match(seedMap[pair[0]], seedMap[pair[1]], `R24-${index + 1}`)
+          name:'Round of 32',
+          matches: roundOf32Pairings.map(pair =>
+            match(resolveTeam(pair[0]), resolveTeam(pair[1]), pair[2])
           )
         },
         {
           name:'Round of 16',
-          matches: byeTeams.map((team,index) =>
-            match(team, null, `R16-${index + 1}`)
-          )
+          matches:Array.from({length:8},(_,i)=>match(null,null,`R16-${i+1}`))
         },
         {
           name:'Quarter Final',
@@ -338,6 +635,7 @@
         }
       ];
 
+      renderThirdPlaceRanking();
       renderBracket();
       updateChampion();
     }
@@ -345,7 +643,8 @@
     function pickWinner(roundIndex,matchIndex,side){
       const m = rounds[roundIndex].matches[matchIndex];
       const winner = side === 'A' ? m.teamA : m.teamB;
-      if(!winner) return;
+      if(!winner || winner.placeholder) return;
+
       m.winner = winner;
       clearNext(roundIndex+1);
       buildNext(roundIndex);
@@ -355,14 +654,9 @@
 
     function clearNext(start){
       for(let r=start;r<rounds.length;r++) {
-        rounds[r].matches.forEach((m,index)=>{
-          if(r === 1){
-            m.teamA = byeTeams[index] || null;
-            m.teamB = null;
-          } else {
-            m.teamA = null;
-            m.teamB = null;
-          }
+        rounds[r].matches.forEach((m)=>{
+          m.teamA = null;
+          m.teamB = null;
           m.winner = null;
         });
       }
@@ -370,16 +664,12 @@
 
     function buildNext(roundIndex){
       if(roundIndex >= rounds.length-1) return;
-      const winners = rounds[roundIndex].matches.map(m=>m.winner).filter(Boolean);
-      const next = rounds[roundIndex+1];
 
-      if(roundIndex === 0){
-        for(let i=0;i<8;i++){
-          next.matches[i].teamA = byeTeams[i] || null;
-          next.matches[i].teamB = winners[i] || null;
-        }
-        return;
-      }
+      const winners = rounds[roundIndex].matches
+        .map(m=>m.winner)
+        .filter(Boolean);
+
+      const next = rounds[roundIndex+1];
 
       for(let i=0;i<next.matches.length;i++){
         next.matches[i].teamA = winners[i*2] || null;
@@ -389,6 +679,12 @@
 
     function renderBracket(){
       const container = document.getElementById('bracketContainer');
+
+      if(!rounds.length){
+        container.innerHTML = `<p>Generate the bracket first.</p>`;
+        return;
+      }
+
       container.innerHTML = rounds.map((round,ri)=>`
         <div class="round">
           <h3>${round.name}</h3>
@@ -403,12 +699,17 @@
 
     function teamButton(t,winner,ri,mi,side){
       if(!t) return `<button class="match-team empty" disabled>Waiting...</button>`;
+
       const selected = winner && winner.name === t.name;
-      return `<button class="match-team ${selected?'winner':''}" onclick="pickWinner(${ri},${mi},'${side}')"><span>${t.flag} ${t.name}</span><b>${t.rating}</b></button>`;
+      const label = t.bestThird ? `${t.seed} • Best 3rd` : t.seed;
+      const displayFlag = t.flag ? `${t.flag} ` : '';
+
+      return `<button class="match-team ${selected?'winner':''}" onclick="pickWinner(${ri},${mi},'${side}')"><span>${displayFlag}${t.name}</span><b>${label}</b></button>`;
     }
 
     function updateChampion(){
       const champion = rounds[4]?.matches[0]?.winner;
+
       document.getElementById('championBox').innerHTML = champion
         ? `<div class="cup">🏆</div><p>Your predicted champion is</p><strong>${champion.flag} ${champion.name}</strong>`
         : `<div class="cup">🏆</div><p>Your champion will appear here</p><strong>-</strong>`;
